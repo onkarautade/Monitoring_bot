@@ -1,0 +1,15 @@
+.env
+*.log
+__pycache__/
+*.pyc
+*.sqlite
+*.db
+report/
+logs/
+reports/
+nohup.out
+*.tar.gz
+*.zip
+*.pdf
+monitoring_venv/
+testenv/
