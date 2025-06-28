@@ -33,13 +33,19 @@ def fetch_network_data(start_time, end_time):
 def fetch_system_util_data(start_time, end_time):
     conn = sqlite3.connect(DB_PATH)
     query = '''
-        SELECT timestamp, cpu_usage, ram_usage, storage_usage, temperature FROM system_util
+        SELECT timestamp, 
+               cpu_temp AS temperature, 
+               cpu_usage, 
+               ram_usage, 
+               storage_usage 
+        FROM system_resources
         WHERE timestamp BETWEEN ? AND ?
         ORDER BY timestamp ASC
     '''
     df = pd.read_sql_query(query, conn, params=(start_time, end_time), parse_dates=['timestamp'])
     conn.close()
     return df
+
 
 def plot_metric(df, metric, pdf, start, end):
     plt.figure(figsize=(10, 5))
