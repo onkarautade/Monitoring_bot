@@ -59,7 +59,7 @@ def plot_metric(df, metric, pdf, start, end):
     plt.grid(True)
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.legend()
-    plt.figtext(0.99, 0.01,
+    plt.figtext(0.99, 0.05,
                 f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\nPeriod: {start.strftime('%Y-%m-%d %H:%M')} to {end.strftime('%Y-%m-%d %H:%M')}\n\n",
                 horizontalalignment='right', fontsize=8)
     pdf.savefig()
@@ -77,7 +77,7 @@ def plot_availability(df, pdf, start, end):
     plt.ylim(-0.1, 1.1)
     plt.grid(True)
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
-    plt.figtext(0.99, 0.01,
+    plt.figtext(0.99, 0.05,
                 f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\nPeriod: {start.strftime('%Y-%m-%d %H:%M')} to {end.strftime('%Y-%m-%d %H:%M')}\n\n",
                 horizontalalignment='right', fontsize=8)
     pdf.savefig()
@@ -95,7 +95,7 @@ def plot_system_util(df, metric, pdf, start, end):
     plt.grid(True)
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.legend()
-    plt.figtext(0.99, 0.01,
+    plt.figtext(0.99, 0.05,
                 f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\nPeriod: {start.strftime('%Y-%m-%d %H:%M')} to {end.strftime('%Y-%m-%d %H:%M')}\n\n",
                 horizontalalignment='right', fontsize=8)
     pdf.savefig()
