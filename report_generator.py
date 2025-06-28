@@ -13,10 +13,10 @@ REPORT_DIR = "/home/adm_onkar/Monitoring_script/report"
 os.makedirs(REPORT_DIR, exist_ok=True)
 
 SYSTEM_THRESHOLDS = {
-    'cpu_usage': 85.0,
-    'ram_usage': 90.0,
-    'storage_usage': 90.0,
-    'temperature': 75.0
+    'cpu_usage': 80.0,
+    'ram_usage': 80.0,
+    'storage_usage': 70.0,
+    'temperature': 60.0
 }
 
 def fetch_network_data(start_time, end_time):
