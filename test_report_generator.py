@@ -1,5 +1,5 @@
 # test_report_generator.py
-from report_generator import generate_report, purge_old_reports
+from report_generator_dev import generate_report, purge_old_reports
 from datetime import datetime, timedelta
 
 
