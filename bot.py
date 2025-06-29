@@ -235,10 +235,23 @@ def notify_all(text):
             pass
 
 def auto_daily_report():
-    last_date = None
+    date_file = ".last_report_date"
+    
+    def read_last_date():
+        if os.path.exists(date_file):
+            with open(date_file, "r") as f:
+                return f.read().strip()
+        return None
+
+    def write_last_date(date_str):
+        with open(date_file, "w") as f:
+            f.write(date_str)
+
     while True:
-        today = datetime.now().date()
-        if last_date != today:
+        today_str = datetime.now().date().isoformat()
+        last_date = read_last_date()
+        
+        if last_date != today_str:
             try:
                 path = generate_report("yesterday")
                 if path:
@@ -248,10 +261,12 @@ def auto_daily_report():
                     notify_all("<b>📈 Report sent automatically.</b>")
                 else:
                     notify_all("❌ No data for yesterday.")
+                
                 purge_old_reports()
-                last_date = today
+                write_last_date(today_str)
             except Exception as e:
                 logging.error(f"Auto-report error: {e}")
+
         time.sleep(900)
 
 # --- Startup ---
