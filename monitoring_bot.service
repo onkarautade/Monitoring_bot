@@ -11,3 +11,5 @@ RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
+#pwd is mentioned below, starts the monitoring bot on startup and venv
+#/etc/systemd/system
