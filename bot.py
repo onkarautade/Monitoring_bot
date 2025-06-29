@@ -83,31 +83,36 @@ def show_system_status(message):
 def show_network_status(message):
     try:
         net = get_network_status()
-        text = "<b>Network Status:</b>\n"
+        text = "<b>Network Status:</b>"
         for k, v in net.items():
             text += (
-                f"\n<b>{k}</b><br>"
-                f"&nbsp;&nbsp;• Latency: {v['Latency']} ms<br>"
-                f"&nbsp;&nbsp;• Jitter: {v['Jitter']} ms<br>"
-                f"&nbsp;&nbsp;• Packet Loss: {v['Packet Loss']}%<br>"
-                f"&nbsp;&nbsp;• Status: {v['Status']}<br>"
-                f"&nbsp;&nbsp;• Checked: {v['Last Checked']}<br>"
+                f"\n\n<b>{k}</b>\n"
+                f"• Latency: {v['Latency']} ms\n"
+                f"• Jitter: {v['Jitter']} ms\n"
+                f"• Packet Loss: {v['Packet Loss']}%\n"
+                f"• Status: {v['Status']}\n"
+                f"• Checked: {v['Last Checked']}"
             )
-        bot.send_message(message.chat.id, text)
+        bot.send_message(message.chat.id, text, parse_mode="HTML")
     except Exception as e:
         logging.exception("Network status error")
-        bot.send_message(message.chat.id, "Failed to fetch network status.")
+        bot.send_message(message.chat.id, f"❌ Error: {str(e)}")
 
 def show_ip_config(message):
     try:
         pub_ip = get_public_ip()
         priv_ip = get_private_ip()
-        priv_ip_str = "<br>".join(priv_ip)
-        msg = f"<b>IP Info:</b><br>Public: {pub_ip}<br>Private:<br>{priv_ip_str}"
-        bot.send_message(message.chat.id, msg)
+        priv_ip_str = "\n".join(priv_ip) if isinstance(priv_ip, list) else str(priv_ip)
+
+        msg = (
+            f"<b>IP Info:</b>\n"
+            f"Public: {pub_ip}\n"
+            f"Private:\n{priv_ip_str}"
+        )
+        bot.send_message(message.chat.id, msg, parse_mode="HTML")
     except Exception as e:
         logging.error(f"IP config error: {e}")
-        bot.send_message(message.chat.id, "Failed to fetch IP config.")
+        bot.send_message(message.chat.id, f"❌ IP error: {str(e)}")
 
 def show_alerts(message):
     try:
@@ -179,7 +184,7 @@ def reboot_pi(message):
     subprocess.run(["sudo", "reboot"], check=False)
 
 def ping_camera(message):
-    ip = "192.168.1.6"
+    ip = "192.168.1.2"
     try:
         out = subprocess.run(["ping", "-c", "4", ip], capture_output=True, text=True)
         bot.send_message(message.chat.id, f"<pre>{out.stdout}</pre>")
@@ -187,7 +192,7 @@ def ping_camera(message):
         bot.send_message(message.chat.id, f"Ping failed: {e}")
 
 def expert_mode_shell_handler(call):
-    bot.send_message(call.message.chat.id, "<b>Expert Mode Activated.</b><br>Send a safe shell command:")
+    bot.send_message(call.message.chat.id, "<b>Expert Mode Activated.</b>\nSend a safe shell command:")
     bot.register_next_step_handler(call.message, execute_shell_command)
 
 def execute_shell_command(message):
@@ -197,17 +202,29 @@ def execute_shell_command(message):
     cmd = message.text.strip()
     if not is_safe_command(cmd):
         allowed = "\n".join(SAFE_COMMANDS)
-        return bot.send_message(message.chat.id, f"<b>Blocked.</b> Allowed commands:<pre>{allowed}</pre>")
+        return bot.send_message(
+            message.chat.id,
+            f"<b>❌ Blocked Command</b>\nAllowed commands:\n<pre>{allowed}</pre>",
+            parse_mode="HTML"
+        )
 
     try:
         result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=10)
         output = result.stdout.strip() or "✅ Command executed, but no output returned."
-        escaped_output = output[-4000:].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        bot.send_message(message.chat.id, f"<pre>{escaped_output}</pre>")
+        
+        # Escape unsafe HTML characters for Telegram
+        safe_output = output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+        # Limit to last 4000 characters (Telegram message limit)
+        safe_output = safe_output[-4000:]
+
+        bot.send_message(message.chat.id, f"<pre>{safe_output}</pre>", parse_mode="HTML")
+
     except subprocess.TimeoutExpired:
         bot.send_message(message.chat.id, "❌ Command timed out.")
     except Exception as e:
         bot.send_message(message.chat.id, f"⚠️ Error: {str(e)}")
+
 
 # --- Auto Daily Reports ---
 def notify_all(text):
