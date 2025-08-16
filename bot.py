@@ -183,8 +183,8 @@ def reboot_pi(message):
     bot.send_message(message.chat.id, "Rebooting Pi...")
     subprocess.run(["sudo", "reboot"], check=False)
 
-def ping_camera(message):
-    ip = "192.168.1.2"
+def ping_camera(message): # this functions ping IP camera in the same network
+    ip = "192.168.1.2" # change the IP address as per your requirement 
     try:
         out = subprocess.run(["ping", "-c", "4", ip], capture_output=True, text=True)
         bot.send_message(message.chat.id, f"<pre>{out.stdout}</pre>")
