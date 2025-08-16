@@ -24,7 +24,7 @@ if not BOT_TOKEN:
     raise ValueError("BOT_TOKEN is missing in the .env file!")
 
 bot = telebot.TeleBot(BOT_TOKEN, parse_mode="HTML")
-ALLOWED_CHAT_ID = {710548578, 5887269201, 1148184296, 1224961162}
+ALLOWED_CHAT_ID = {123456789,123456789,123456789} # Enter telegram chat id here
 UPTIME_ALERT_THRESHOLD = 95
 
 logging.basicConfig(level=logging.DEBUG,
