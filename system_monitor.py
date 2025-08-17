@@ -16,7 +16,7 @@ logging.basicConfig(
     encoding='utf-8'
 )
 
-DB_PATH = "/home/adm_onkar/Monitoring_script/logs/monitoring_data.db"  #   Database path
+DB_PATH = "/home/onkar/Monitoring_script/logs/monitoring_data.db"  #   Database path
 
 #   Alert Thresholds
 WARNING_CPU_TEMP = 60
