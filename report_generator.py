@@ -8,8 +8,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 from datetime import datetime, timedelta
 import os
 
-DB_PATH = "/home/adm_onkar/Monitoring_script/logs/monitoring_data.db"
-REPORT_DIR = "/home/adm_onkar/Monitoring_script/report"
+DB_PATH = "/home/onkar/Monitoring_script/logs/monitoring_data.db"
+REPORT_DIR = "/home/onkar/Monitoring_script/report"
 os.makedirs(REPORT_DIR, exist_ok=True)
 
 SYSTEM_THRESHOLDS = {
