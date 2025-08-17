@@ -1,0 +1,6 @@
+pyTelegramBotAPI
+python-dotenv
+psutil
+requests
+pandas
+matplotlib
