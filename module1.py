@@ -14,7 +14,7 @@ logging.basicConfig(
     format='%(asctime)s - %(message)s'
 )
 
-DB_PATH = "/home/adm_onkar/Monitoring_script/logs/monitoring_data.db"  # Database path
+DB_PATH = "/home/onkar/Monitoring_script/logs/monitoring_data.db"  # Database path
 
 def create_table():
     """Creates the network_logs table if it doesn't exist."""
