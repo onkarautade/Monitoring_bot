@@ -3,9 +3,9 @@ Description=Monitoring Bot Service
 After=network.target
 
 [Service]
-User=adm_onkar
-WorkingDirectory=/home/adm_onkar/Monitoring_script
-ExecStart=/home/adm_onkar/Monitoring_script/start_monitoring.sh
+User=onkar
+WorkingDirectory=/home/onkar/Monitoring_script
+ExecStart=/home/onkar/Monitoring_script/start_monitoring.sh
 Restart=always
 RestartSec=10
 
